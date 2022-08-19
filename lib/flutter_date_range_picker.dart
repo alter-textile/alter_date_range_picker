@@ -1,4 +1,4 @@
-import 'package:custom_date_range_picker/custom_calendar.dart';
+import 'flutter_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 ///   required this.maximumDate,
 ///   required this.onCancelClick,
 /// }`
-class CustomDateRangePicker extends StatefulWidget {
+class FlutterDateRangePicker extends StatefulWidget {
   final DateTime minimumDate;
 
   final DateTime maximumDate;
@@ -27,7 +27,7 @@ class CustomDateRangePicker extends StatefulWidget {
 
   final Function() onCancelClick;
 
-  const CustomDateRangePicker({
+  const FlutterDateRangePicker({
     Key? key,
     this.initialStartDate,
     this.initialEndDate,
@@ -39,10 +39,10 @@ class CustomDateRangePicker extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  CustomDateRangePickerState createState() => CustomDateRangePickerState();
+  FlutterDateRangePickerState createState() => FlutterDateRangePickerState();
 }
 
-class CustomDateRangePickerState extends State<CustomDateRangePicker>
+class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
@@ -90,9 +90,10 @@ class CustomDateRangePickerState extends State<CustomDateRangePicker>
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        offset: const Offset(4, 4),
-                        blurRadius: 8.0),
+                      color: Colors.grey.withOpacity(0.2),
+                      offset: const Offset(4, 4),
+                      blurRadius: 8.0,
+                    ),
                   ],
                 ),
                 child: InkWell(
@@ -111,17 +112,15 @@ class CustomDateRangePickerState extends State<CustomDateRangePicker>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  'From',
+                                  'FROM',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    fontSize: 16,
+                                    fontSize: 11,
                                     color: Colors.grey.shade700,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
+                                const SizedBox(height: 5),
                                 Text(
                                   startDate != null
                                       ? DateFormat('EEE, dd MMM')
@@ -147,16 +146,14 @@ class CustomDateRangePickerState extends State<CustomDateRangePicker>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  'To',
+                                  'TO',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    fontSize: 16,
+                                    fontSize: 11,
                                     color: Colors.grey.shade700,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
+                                const SizedBox(height: 5),
                                 Text(
                                   endDate != null
                                       ? DateFormat('EEE, dd MMM')
@@ -176,7 +173,7 @@ class CustomDateRangePickerState extends State<CustomDateRangePicker>
                       const Divider(
                         height: 1,
                       ),
-                      CustomCalendar(
+                      FlutterCalendar(
                         minimumDate: widget.minimumDate,
                         maximumDate: widget.maximumDate,
                         initialEndDate: widget.initialEndDate,
@@ -197,48 +194,27 @@ class CustomDateRangePickerState extends State<CustomDateRangePicker>
                             Expanded(
                               child: Container(
                                 height: 48,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(24.0)),
-                                  boxShadow: <BoxShadow>[
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.6),
-                                      blurRadius: 8,
-                                      offset: const Offset(4, 4),
-                                    ),
-                                  ],
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(24.0),
+                                  ),
                                 ),
                                 child: Material(
                                   color: Colors.transparent,
-                                  child: OutlinedButton(
-                                    style: ButtonStyle(
-                                      side: MaterialStateProperty.all(
-                                          BorderSide(
-                                              color: Theme.of(context)
-                                                  .primaryColor)),
-                                      shape: MaterialStateProperty.all(
-                                        const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(24.0)),
-                                        ),
-                                      ),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Theme.of(context).primaryColor),
-                                    ),
+                                  child: TextButton(
                                     onPressed: () {
                                       try {
                                         widget.onCancelClick();
                                         Navigator.pop(context);
                                       } catch (_) {}
                                     },
-                                    child: const Center(
+                                    child: Center(
                                       child: Text(
                                         'Cancel',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 18,
-                                          color: Colors.white,
+                                          fontSize: 16,
+                                          color: Theme.of(context).primaryColor,
                                         ),
                                       ),
                                     ),
@@ -249,11 +225,12 @@ class CustomDateRangePickerState extends State<CustomDateRangePicker>
                             const SizedBox(width: 16),
                             Expanded(
                               child: Container(
-                                height: 48,
+                                height: 45,
                                 decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColor,
                                   borderRadius: const BorderRadius.all(
-                                      Radius.circular(24.0)),
+                                    Radius.circular(5.0),
+                                  ),
                                   boxShadow: <BoxShadow>[
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.6),
@@ -262,27 +239,13 @@ class CustomDateRangePickerState extends State<CustomDateRangePicker>
                                     ),
                                   ],
                                 ),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(24.0)),
-                                    highlightColor: Colors.transparent,
-                                    onTap: () {
-                                      try {
-                                        widget.onApplyClick(
-                                            startDate!, endDate!);
-                                        Navigator.pop(context);
-                                      } catch (_) {}
-                                    },
-                                    child: const Center(
-                                      child: Text(
-                                        'Apply',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 18,
-                                            color: Colors.white),
-                                      ),
+                                child: const Center(
+                                  child: Text(
+                                    'Apply',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
@@ -332,7 +295,7 @@ void showCustomDateRangePicker(
   FocusScope.of(context).requestFocus(FocusNode());
   showDialog<dynamic>(
     context: context,
-    builder: (BuildContext context) => CustomDateRangePicker(
+    builder: (BuildContext context) => FlutterDateRangePicker(
       barrierDismissible: true,
       minimumDate: minimumDate,
       maximumDate: maximumDate,

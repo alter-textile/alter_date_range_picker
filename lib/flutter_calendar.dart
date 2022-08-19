@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 ///   this.minimumDate,
 ///   this.maximumDate,
 /// })`
-class CustomCalendar extends StatefulWidget {
+class FlutterCalendar extends StatefulWidget {
   final DateTime? minimumDate;
 
   final DateTime? maximumDate;
@@ -20,7 +20,7 @@ class CustomCalendar extends StatefulWidget {
 
   final Function(DateTime, DateTime)? startEndDateChange;
 
-  const CustomCalendar({
+  const FlutterCalendar({
     Key? key,
     this.initialStartDate,
     this.initialEndDate,
@@ -30,10 +30,10 @@ class CustomCalendar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  CustomCalendarState createState() => CustomCalendarState();
+  FlutterCalendarState createState() => FlutterCalendarState();
 }
 
-class CustomCalendarState extends State<CustomCalendar> {
+class FlutterCalendarState extends State<FlutterCalendar> {
   List<DateTime> dateList = <DateTime>[];
 
   DateTime currentMonthDate = DateTime.now();
@@ -97,12 +97,16 @@ class CustomCalendarState extends State<CustomCalendar> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(24.0)),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(24.0),
+                      ),
                       onTap: () {
                         setState(() {
                           currentMonthDate = DateTime(
-                              currentMonthDate.year, currentMonthDate.month, 0);
+                            currentMonthDate.year,
+                            currentMonthDate.month,
+                            0,
+                          );
                           setListOfDate(currentMonthDate);
                         });
                       },
@@ -120,7 +124,7 @@ class CustomCalendarState extends State<CustomCalendar> {
                     DateFormat('MMMM, yyyy').format(currentMonthDate),
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 20,
+                      fontSize: 16,
                       color: Theme.of(context).textTheme.headline1!.color,
                     ),
                   ),
@@ -133,19 +137,21 @@ class CustomCalendarState extends State<CustomCalendar> {
                   width: 38,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                    border: Border.all(
-                      color: Theme.of(context).dividerColor,
-                    ),
+                    border: Border.all(color: Theme.of(context).dividerColor),
                   ),
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(24.0)),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(24.0),
+                      ),
                       onTap: () {
                         setState(() {
-                          currentMonthDate = DateTime(currentMonthDate.year,
-                              currentMonthDate.month + 2, 0);
+                          currentMonthDate = DateTime(
+                            currentMonthDate.year,
+                            currentMonthDate.month + 2,
+                            0,
+                          );
                           setListOfDate(currentMonthDate);
                         });
                       },
@@ -162,15 +168,11 @@ class CustomCalendarState extends State<CustomCalendar> {
         ),
         Padding(
           padding: const EdgeInsets.only(right: 8, left: 8, bottom: 8),
-          child: Row(
-            children: getDaysNameUI(),
-          ),
+          child: Row(children: getDaysNameUI()),
         ),
         Padding(
           padding: const EdgeInsets.only(right: 8, left: 8),
-          child: Column(
-            children: getDaysNoUI(),
-          ),
+          child: Column(children: getDaysNoUI()),
         ),
       ],
     );
@@ -185,9 +187,10 @@ class CustomCalendarState extends State<CustomCalendar> {
             child: Text(
               DateFormat('EEE').format(dateList[i]),
               style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).primaryColor),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
           ),
         ),
@@ -215,10 +218,11 @@ class CustomCalendarState extends State<CustomCalendar> {
                       color: Colors.transparent,
                       child: Padding(
                         padding: EdgeInsets.only(
-                            top: 2,
-                            bottom: 2,
-                            left: isStartDateRadius(date) ? 4 : 0,
-                            right: isEndDateRadius(date) ? 4 : 0),
+                          top: 2,
+                          bottom: 2,
+                          left: isStartDateRadius(date) ? 4 : 0,
+                          right: isEndDateRadius(date) ? 4 : 0,
+                        ),
                         child: Container(
                           decoration: BoxDecoration(
                             color: startDate != null && endDate != null
@@ -251,8 +255,9 @@ class CustomCalendarState extends State<CustomCalendar> {
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(32.0)),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(32.0),
+                      ),
                       onTap: () {
                         if (currentMonthDate.month == date.month) {
                           if (widget.minimumDate != null &&
@@ -262,26 +267,29 @@ class CustomCalendarState extends State<CustomCalendar> {
                                 widget.minimumDate!.month,
                                 widget.minimumDate!.day - 1);
                             final DateTime newmaximumDate = DateTime(
-                                widget.maximumDate!.year,
-                                widget.maximumDate!.month,
-                                widget.maximumDate!.day + 1);
+                              widget.maximumDate!.year,
+                              widget.maximumDate!.month,
+                              widget.maximumDate!.day + 1,
+                            );
                             if (date.isAfter(newminimumDate) &&
                                 date.isBefore(newmaximumDate)) {
                               onDateClick(date);
                             }
                           } else if (widget.minimumDate != null) {
                             final DateTime newminimumDate = DateTime(
-                                widget.minimumDate!.year,
-                                widget.minimumDate!.month,
-                                widget.minimumDate!.day - 1);
+                              widget.minimumDate!.year,
+                              widget.minimumDate!.month,
+                              widget.minimumDate!.day - 1,
+                            );
                             if (date.isAfter(newminimumDate)) {
                               onDateClick(date);
                             }
                           } else if (widget.maximumDate != null) {
                             final DateTime newmaximumDate = DateTime(
-                                widget.maximumDate!.year,
-                                widget.maximumDate!.month,
-                                widget.maximumDate!.day + 1);
+                              widget.maximumDate!.year,
+                              widget.maximumDate!.month,
+                              widget.maximumDate!.day + 1,
+                            );
                             if (date.isBefore(newmaximumDate)) {
                               onDateClick(date);
                             }
@@ -308,9 +316,10 @@ class CustomCalendarState extends State<CustomCalendar> {
                             boxShadow: getIsItStartAndEndDate(date)
                                 ? <BoxShadow>[
                                     BoxShadow(
-                                        color: Colors.grey.withOpacity(0.6),
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 0)),
+                                      color: Colors.grey.withOpacity(0.6),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 0),
+                                    ),
                                   ]
                                 : null,
                           ),
@@ -318,18 +327,16 @@ class CustomCalendarState extends State<CustomCalendar> {
                             child: Text(
                               '${date.day}',
                               style: TextStyle(
-                                  color: getIsItStartAndEndDate(date)
-                                      ? Colors.white
-                                      : currentMonthDate.month == date.month
-                                          ? Colors.black
-                                          : Colors.grey.withOpacity(0.6),
-                                  fontSize:
-                                      MediaQuery.of(context).size.width > 360
-                                          ? 18
-                                          : 16,
-                                  fontWeight: getIsItStartAndEndDate(date)
-                                      ? FontWeight.bold
-                                      : FontWeight.normal),
+                                color: getIsItStartAndEndDate(date)
+                                    ? Colors.white
+                                    : currentMonthDate.month == date.month
+                                        ? Colors.black
+                                        : Colors.grey.withOpacity(0.6),
+                                fontSize: 16,
+                                fontWeight: getIsItStartAndEndDate(date)
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
                             ),
                           ),
                         ),
@@ -337,21 +344,22 @@ class CustomCalendarState extends State<CustomCalendar> {
                     ),
                   ),
                   Positioned(
-                    bottom: 9,
+                    bottom: 5,
                     right: 0,
                     left: 0,
                     child: Container(
                       height: 6,
                       width: 6,
                       decoration: BoxDecoration(
-                          color: DateTime.now().day == date.day &&
-                                  DateTime.now().month == date.month &&
-                                  DateTime.now().year == date.year
-                              ? getIsInRange(date)
-                                  ? Colors.white
-                                  : Theme.of(context).primaryColor
-                              : Colors.transparent,
-                          shape: BoxShape.circle),
+                        color: DateTime.now().day == date.day &&
+                                DateTime.now().month == date.month &&
+                                DateTime.now().year == date.year
+                            ? getIsInRange(date)
+                                ? Colors.white
+                                : Theme.of(context).primaryColor
+                            : Colors.transparent,
+                        shape: BoxShape.circle,
+                      ),
                     ),
                   ),
                 ],
