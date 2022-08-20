@@ -85,7 +85,7 @@ class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(24.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.2),
