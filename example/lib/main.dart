@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showCustomDateRangePicker(
+          showFlutterDateRangePicker(
             context,
             dismissible: true,
             minimumDate: DateTime.now(),
@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 startDate = start;
               });
             },
-            onCancelClick: () {
+            onClearClick: () {
               setState(() {
                 endDate = null;
                 startDate = null;

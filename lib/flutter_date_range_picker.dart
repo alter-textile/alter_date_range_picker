@@ -2,7 +2,7 @@ import 'flutter_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// `CustomDateRangePicker({
+/// `FlutterDateRangePicker({
 ///   Key? key,
 ///   this.initialStartDate,
 ///   this.initialEndDate,
@@ -25,7 +25,7 @@ class FlutterDateRangePicker extends StatefulWidget {
 
   final Function(DateTime, DateTime) onApplyClick;
 
-  final Function() onCancelClick;
+  final Function() onClearClick;
 
   const FlutterDateRangePicker({
     Key? key,
@@ -35,7 +35,7 @@ class FlutterDateRangePicker extends StatefulWidget {
     this.barrierDismissible = true,
     required this.minimumDate,
     required this.maximumDate,
-    required this.onCancelClick,
+    required this.onClearClick,
   }) : super(key: key);
 
   @override
@@ -77,9 +77,7 @@ class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
           highlightColor: Colors.transparent,
           hoverColor: Colors.transparent,
           onTap: () {
-            if (widget.barrierDismissible) {
-              Navigator.pop(context);
-            }
+            if (widget.barrierDismissible) Navigator.pop(context);
           },
           child: Center(
             child: Padding(
@@ -204,13 +202,13 @@ class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
                                   child: TextButton(
                                     onPressed: () {
                                       try {
-                                        widget.onCancelClick();
+                                        widget.onClearClick();
                                         Navigator.pop(context);
                                       } catch (_) {}
                                     },
                                     child: Center(
                                       child: Text(
-                                        'Cancel',
+                                        'Clear',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 16,
@@ -224,28 +222,43 @@ class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
                             ),
                             const SizedBox(width: 16),
                             Expanded(
-                              child: Container(
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(5.0),
-                                  ),
-                                  boxShadow: <BoxShadow>[
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.6),
-                                      blurRadius: 8,
-                                      offset: const Offset(4, 4),
+                              child: GestureDetector(
+                                onTap: () {
+                                  try {
+                                    if (startDate != null && endDate != null) {
+                                      widget.onApplyClick(startDate!, endDate!);
+                                      Navigator.pop(context);
+                                    } else if (startDate != null ||
+                                        endDate != null) {
+                                      final date = startDate ?? endDate;
+                                      widget.onApplyClick(date!, date);
+                                      Navigator.pop(context);
+                                    }
+                                  } catch (_) {}
+                                },
+                                child: Container(
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(5.0),
                                     ),
-                                  ],
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    'Apply',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Colors.white,
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.6),
+                                        blurRadius: 8,
+                                        offset: const Offset(4, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Apply',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -266,7 +279,7 @@ class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
   }
 }
 
-/// `showCustomDateRangePicker(
+/// `showFlutterDateRangePicker(
 ///   BuildContext context, {
 ///   required bool dismissible,
 ///   required DateTime minimumDate,
@@ -279,7 +292,7 @@ class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
 ///   Color? primaryColor,
 ///   String? fontFamily,
 /// })`
-void showCustomDateRangePicker(
+void showFlutterDateRangePicker(
   BuildContext context, {
   required bool dismissible,
   required DateTime minimumDate,
@@ -287,7 +300,7 @@ void showCustomDateRangePicker(
   DateTime? startDate,
   DateTime? endDate,
   required Function(DateTime startDate, DateTime endDate) onApplyClick,
-  required Function() onCancelClick,
+  required Function() onClearClick,
   Color? backgroundColor,
   Color? primaryColor,
   String? fontFamily,
@@ -302,7 +315,7 @@ void showCustomDateRangePicker(
       initialStartDate: startDate,
       initialEndDate: endDate,
       onApplyClick: onApplyClick,
-      onCancelClick: onCancelClick,
+      onClearClick: onClearClick,
     ),
   );
 }
