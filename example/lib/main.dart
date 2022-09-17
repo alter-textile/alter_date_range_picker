@@ -1,4 +1,4 @@
-import 'package:custom_date_range_picker/flutter_date_range_picker.dart';
+import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
           showFlutterDateRangePicker(
             context,
             dismissible: true,
-            minimumDate: DateTime.now(),
+            minimumDate: DateTime.now().subtract(const Duration(days: 365)),
             maximumDate: DateTime.now().add(const Duration(days: 30)),
             endDate: endDate,
             startDate: startDate,

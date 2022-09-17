@@ -23,7 +23,7 @@ class FlutterDateRangePicker extends StatefulWidget {
 
   final DateTime? initialEndDate;
 
-  final Function(DateTime, DateTime) onApplyClick;
+  final Function(DateTime?, DateTime?) onApplyClick;
 
   final Function() onClearClick;
 
@@ -176,8 +176,10 @@ class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
                         maximumDate: widget.maximumDate,
                         initialEndDate: widget.initialEndDate,
                         initialStartDate: widget.initialStartDate,
-                        startEndDateChange:
-                            (DateTime startDateData, DateTime endDateData) {
+                        startEndDateChange: (
+                          DateTime? startDateData,
+                          DateTime? endDateData,
+                        ) {
                           setState(() {
                             startDate = startDateData;
                             endDate = endDateData;
@@ -225,15 +227,12 @@ class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
                               child: GestureDetector(
                                 onTap: () {
                                   try {
-                                    if (startDate != null && endDate != null) {
-                                      widget.onApplyClick(startDate!, endDate!);
-                                      Navigator.pop(context);
-                                    } else if (startDate != null ||
-                                        endDate != null) {
-                                      final date = startDate ?? endDate;
-                                      widget.onApplyClick(date!, date);
-                                      Navigator.pop(context);
+                                    if (startDate == null && endDate == null) {
+                                      return;
                                     }
+
+                                    widget.onApplyClick(startDate, endDate);
+                                    Navigator.pop(context);
                                   } catch (_) {}
                                 },
                                 child: Container(
@@ -299,7 +298,7 @@ void showFlutterDateRangePicker(
   required DateTime maximumDate,
   DateTime? startDate,
   DateTime? endDate,
-  required Function(DateTime startDate, DateTime endDate) onApplyClick,
+  required Function(DateTime? startDate, DateTime? endDate) onApplyClick,
   required Function() onClearClick,
   Color? backgroundColor,
   Color? primaryColor,

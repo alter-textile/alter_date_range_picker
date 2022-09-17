@@ -18,7 +18,7 @@ class FlutterCalendar extends StatefulWidget {
 
   final DateTime? initialEndDate;
 
-  final Function(DateTime, DateTime)? startEndDateChange;
+  final Function(DateTime?, DateTime?)? startEndDateChange;
 
   const FlutterCalendar({
     Key? key,
@@ -432,7 +432,9 @@ class FlutterCalendarState extends State<FlutterCalendar> {
   }
 
   void onDateClick(DateTime date) {
-    if (startDate == null) {
+    if (startDate == null && endDate == null) {
+      startDate = date;
+    } else if (startDate == null) {
       startDate = date;
     } else if (startDate != date && endDate == null) {
       endDate = date;
@@ -458,10 +460,7 @@ class FlutterCalendarState extends State<FlutterCalendar> {
         endDate = date;
       }
     }
-    setState(() {
-      try {
-        widget.startEndDateChange!(startDate!, endDate!);
-      } catch (_) {}
-    });
+
+    setState(() => widget.startEndDateChange!(startDate, endDate));
   }
 }
