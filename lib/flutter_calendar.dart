@@ -20,6 +20,8 @@ class FlutterCalendar extends StatefulWidget {
 
   final Function(DateTime?, DateTime?)? startEndDateChange;
 
+  final bool selectRange;
+
   const FlutterCalendar({
     Key? key,
     this.initialStartDate,
@@ -27,6 +29,7 @@ class FlutterCalendar extends StatefulWidget {
     this.startEndDateChange,
     this.minimumDate,
     this.maximumDate,
+    required this.selectRange,
   }) : super(key: key);
 
   @override
@@ -432,32 +435,36 @@ class FlutterCalendarState extends State<FlutterCalendar> {
   }
 
   void onDateClick(DateTime date) {
-    if (startDate == null && endDate == null) {
+    if (!widget.selectRange) {
       startDate = date;
-    } else if (startDate == null) {
-      startDate = date;
-    } else if (startDate != date && endDate == null) {
-      endDate = date;
-    } else if (startDate!.day == date.day && startDate!.month == date.month) {
-      startDate = null;
-    } else if (endDate!.day == date.day && endDate!.month == date.month) {
-      endDate = null;
-    }
-    if (startDate == null && endDate != null) {
-      startDate = endDate;
-      endDate = null;
-    }
-    if (startDate != null && endDate != null) {
-      if (!endDate!.isAfter(startDate!)) {
-        final DateTime d = startDate!;
-        startDate = endDate;
-        endDate = d;
-      }
-      if (date.isBefore(startDate!)) {
+    } else {
+      if (startDate == null && endDate == null) {
         startDate = date;
-      }
-      if (date.isAfter(endDate!)) {
+      } else if (startDate == null) {
+        startDate = date;
+      } else if (startDate != date && endDate == null) {
         endDate = date;
+      } else if (startDate!.day == date.day && startDate!.month == date.month) {
+        startDate = null;
+      } else if (endDate!.day == date.day && endDate!.month == date.month) {
+        endDate = null;
+      }
+      if (startDate == null && endDate != null) {
+        startDate = endDate;
+        endDate = null;
+      }
+      if (startDate != null && endDate != null) {
+        if (!endDate!.isAfter(startDate!)) {
+          final DateTime d = startDate!;
+          startDate = endDate;
+          endDate = d;
+        }
+        if (date.isBefore(startDate!)) {
+          startDate = date;
+        }
+        if (date.isAfter(endDate!)) {
+          endDate = date;
+        }
       }
     }
 

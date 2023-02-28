@@ -27,11 +27,14 @@ class FlutterDateRangePicker extends StatefulWidget {
 
   final Function() onClearClick;
 
+  final bool selectRange;
+
   const FlutterDateRangePicker({
     Key? key,
     this.initialStartDate,
     this.initialEndDate,
     required this.onApplyClick,
+    required this.selectRange,
     this.barrierDismissible = true,
     required this.minimumDate,
     required this.maximumDate,
@@ -102,76 +105,78 @@ class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'FROM',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 11,
-                                    color: Colors.grey.shade700,
+                      if (widget.selectRange)
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'FROM',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11,
+                                      color: Colors.grey.shade700,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  startDate != null
-                                      ? DateFormat('EEE, dd MMM')
-                                          .format(startDate!)
-                                      : '--/-- ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.grey.shade700,
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    startDate != null
+                                        ? DateFormat('EEE, dd MMM')
+                                            .format(startDate!)
+                                        : '--/-- ',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: Colors.grey.shade700,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            height: 74,
-                            width: 1,
-                            color: Theme.of(context).dividerColor,
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'TO',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 11,
-                                    color: Colors.grey.shade700,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  endDate != null
-                                      ? DateFormat('EEE, dd MMM')
-                                          .format(endDate!)
-                                      : '--/-- ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.grey.shade700,
-                                  ),
-                                ),
-                              ],
+                            Container(
+                              height: 74,
+                              width: 1,
+                              color: Theme.of(context).dividerColor,
                             ),
-                          )
-                        ],
-                      ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'TO',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    endDate != null
+                                        ? DateFormat('EEE, dd MMM')
+                                            .format(endDate!)
+                                        : '--/-- ',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       const Divider(
                         height: 1,
                       ),
                       FlutterCalendar(
+                        selectRange: widget.selectRange,
                         minimumDate: widget.minimumDate,
                         maximumDate: widget.maximumDate,
                         initialEndDate: widget.initialEndDate,
@@ -296,6 +301,7 @@ void showFlutterDateRangePicker(
   required bool dismissible,
   required DateTime minimumDate,
   required DateTime maximumDate,
+  bool selectRange = true,
   DateTime? startDate,
   DateTime? endDate,
   required Function(DateTime? startDate, DateTime? endDate) onApplyClick,
@@ -309,6 +315,7 @@ void showFlutterDateRangePicker(
     context: context,
     builder: (BuildContext context) => FlutterDateRangePicker(
       barrierDismissible: true,
+      selectRange: selectRange,
       minimumDate: minimumDate,
       maximumDate: maximumDate,
       initialStartDate: startDate,

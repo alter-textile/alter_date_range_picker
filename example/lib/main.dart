@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         brightness: Brightness.light,
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.indigo,
       ),
       home: const MyHomePage(),
     );
@@ -80,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           showFlutterDateRangePicker(
             context,
+            selectRange: false,
             dismissible: true,
             minimumDate: DateTime.now().subtract(const Duration(days: 365)),
             maximumDate: DateTime.now().add(const Duration(days: 30)),
