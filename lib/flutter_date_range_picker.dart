@@ -23,6 +23,10 @@ class FlutterDateRangePicker extends StatefulWidget {
 
   final DateTime? initialEndDate;
 
+  final Color? primaryColor;
+
+  final Color? backgroundColor;
+
   final Function(DateTime?, DateTime?) onApplyClick;
 
   final Function() onClearClick;
@@ -39,6 +43,8 @@ class FlutterDateRangePicker extends StatefulWidget {
     required this.minimumDate,
     required this.maximumDate,
     required this.onClearClick,
+    this.primaryColor,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -219,7 +225,8 @@ class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 16,
-                                          color: Theme.of(context).primaryColor,
+                                          color: widget.primaryColor ??
+                                              Theme.of(context).primaryColor,
                                         ),
                                       ),
                                     ),
@@ -306,8 +313,6 @@ void showFlutterDateRangePicker(
   DateTime? endDate,
   required Function(DateTime? startDate, DateTime? endDate) onApplyClick,
   required Function() onClearClick,
-  Color? backgroundColor,
-  Color? primaryColor,
   String? fontFamily,
 }) {
   FocusScope.of(context).requestFocus(FocusNode());
