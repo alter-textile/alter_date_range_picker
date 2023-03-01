@@ -22,6 +22,10 @@ class FlutterCalendar extends StatefulWidget {
 
   final bool selectRange;
 
+  final Color foregroundColor;
+
+  final Color textColor;
+
   const FlutterCalendar({
     Key? key,
     this.initialStartDate,
@@ -30,6 +34,8 @@ class FlutterCalendar extends StatefulWidget {
     this.minimumDate,
     this.maximumDate,
     required this.selectRange,
+    required this.foregroundColor,
+    required this.textColor,
   }) : super(key: key);
 
   @override
@@ -128,7 +134,7 @@ class FlutterCalendarState extends State<FlutterCalendar> {
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
-                      color: Theme.of(context).textTheme.headline1!.color,
+                      color: widget.textColor,
                     ),
                   ),
                 ),
@@ -192,7 +198,7 @@ class FlutterCalendarState extends State<FlutterCalendar> {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: Theme.of(context).primaryColor,
+                color: widget.foregroundColor,
               ),
             ),
           ),
@@ -231,9 +237,7 @@ class FlutterCalendarState extends State<FlutterCalendar> {
                             color: startDate != null && endDate != null
                                 ? getIsItStartAndEndDate(date) ||
                                         getIsInRange(date)
-                                    ? Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.4)
+                                    ? widget.foregroundColor.withOpacity(0.4)
                                     : Colors.transparent
                                 : Colors.transparent,
                             borderRadius: BorderRadius.only(
@@ -306,7 +310,7 @@ class FlutterCalendarState extends State<FlutterCalendar> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: getIsItStartAndEndDate(date)
-                                ? Theme.of(context).primaryColor
+                                ? widget.foregroundColor
                                 : Colors.transparent,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(32.0)),
@@ -333,8 +337,8 @@ class FlutterCalendarState extends State<FlutterCalendar> {
                                 color: getIsItStartAndEndDate(date)
                                     ? Colors.white
                                     : currentMonthDate.month == date.month
-                                        ? Colors.black
-                                        : Colors.grey.withOpacity(0.6),
+                                        ? widget.textColor
+                                        : widget.textColor.withOpacity(0.6),
                                 fontSize: 16,
                                 fontWeight: getIsItStartAndEndDate(date)
                                     ? FontWeight.bold
@@ -359,7 +363,7 @@ class FlutterCalendarState extends State<FlutterCalendar> {
                                 DateTime.now().year == date.year
                             ? getIsInRange(date)
                                 ? Colors.white
-                                : Theme.of(context).primaryColor
+                                : widget.foregroundColor
                             : Colors.transparent,
                         shape: BoxShape.circle,
                       ),
