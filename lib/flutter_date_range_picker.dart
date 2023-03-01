@@ -92,196 +92,198 @@ class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
             if (widget.barrierDismissible) Navigator.pop(context);
           },
           child: Center(
-            child: Container(
+            child: Padding(
               padding: const EdgeInsets.all(24.0),
-              decoration: BoxDecoration(
-                color: widget.backgroundColor,
-                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    offset: const Offset(4, 4),
-                    blurRadius: 8.0,
-                  ),
-                ],
-              ),
-              child: InkWell(
-                borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                onTap: () {},
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    if (widget.selectRange)
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'FROM',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 11,
-                                    color: widget.textColor.withOpacity(0.5),
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  startDate != null
-                                      ? DateFormat('EEE, dd MMM')
-                                          .format(startDate!)
-                                      : '--/-- ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: widget.textColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: 74,
-                            width: 1,
-                            color: Theme.of(context).dividerColor,
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'TO',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 11,
-                                    color: widget.textColor.withOpacity(0.5),
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  endDate != null
-                                      ? DateFormat('EEE, dd MMM')
-                                          .format(endDate!)
-                                      : '--/-- ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: widget.textColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    const Divider(
-                      height: 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: widget.backgroundColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      offset: const Offset(4, 4),
+                      blurRadius: 8.0,
                     ),
-                    FlutterCalendar(
-                      selectRange: widget.selectRange,
-                      minimumDate: widget.minimumDate,
-                      maximumDate: widget.maximumDate,
-                      initialEndDate: widget.initialEndDate,
-                      initialStartDate: widget.initialStartDate,
-                      foregroundColor: widget.foregroundColor,
-                      textColor: widget.textColor,
-                      startEndDateChange: (
-                        DateTime? startDateData,
-                        DateTime? endDateData,
-                      ) {
-                        setState(() {
-                          startDate = startDateData;
-                          endDate = endDateData;
-                        });
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 16, bottom: 16, top: 8),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 48,
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(24.0),
-                                ),
+                  ],
+                ),
+                child: InkWell(
+                  borderRadius: const BorderRadius.all(Radius.circular(24.0)),
+                  onTap: () {},
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      if (widget.selectRange)
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'FROM',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11,
+                                      color: widget.textColor.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    startDate != null
+                                        ? DateFormat('EEE, dd MMM')
+                                            .format(startDate!)
+                                        : '--/-- ',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: widget.textColor,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              child: Material(
-                                color: Colors.transparent,
-                                child: TextButton(
-                                  onPressed: () {
-                                    try {
-                                      widget.onClearClick();
-                                      Navigator.pop(context);
-                                    } catch (_) {}
-                                  },
-                                  child: Center(
-                                    child: Text(
-                                      'Clear',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        color: widget.foregroundColor,
+                            ),
+                            Container(
+                              height: 74,
+                              width: 1,
+                              color: Theme.of(context).dividerColor,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'TO',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11,
+                                      color: widget.textColor.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    endDate != null
+                                        ? DateFormat('EEE, dd MMM')
+                                            .format(endDate!)
+                                        : '--/-- ',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: widget.textColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      const Divider(
+                        height: 1,
+                      ),
+                      FlutterCalendar(
+                        selectRange: widget.selectRange,
+                        minimumDate: widget.minimumDate,
+                        maximumDate: widget.maximumDate,
+                        initialEndDate: widget.initialEndDate,
+                        initialStartDate: widget.initialStartDate,
+                        foregroundColor: widget.foregroundColor,
+                        textColor: widget.textColor,
+                        startEndDateChange: (
+                          DateTime? startDateData,
+                          DateTime? endDateData,
+                        ) {
+                          setState(() {
+                            startDate = startDateData;
+                            endDate = endDateData;
+                          });
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16, right: 16, bottom: 16, top: 8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 48,
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(24.0),
+                                  ),
+                                ),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      try {
+                                        widget.onClearClick();
+                                        Navigator.pop(context);
+                                      } catch (_) {}
+                                    },
+                                    child: Center(
+                                      child: Text(
+                                        'Clear',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          color: widget.foregroundColor,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                try {
-                                  if (startDate == null && endDate == null) {
-                                    return;
-                                  }
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  try {
+                                    if (startDate == null && endDate == null) {
+                                      return;
+                                    }
 
-                                  widget.onApplyClick(startDate, endDate);
-                                  Navigator.pop(context);
-                                } catch (_) {}
-                              },
-                              child: Container(
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  color: widget.foregroundColor,
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(5.0),
-                                  ),
-                                  boxShadow: <BoxShadow>[
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.6),
-                                      blurRadius: 8,
-                                      offset: const Offset(4, 4),
+                                    widget.onApplyClick(startDate, endDate);
+                                    Navigator.pop(context);
+                                  } catch (_) {}
+                                },
+                                child: Container(
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                    color: widget.foregroundColor,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(5.0),
                                     ),
-                                  ],
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    'Apply',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Colors.white,
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.6),
+                                        blurRadius: 8,
+                                        offset: const Offset(4, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Apply',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
