@@ -2,7 +2,7 @@ import 'flutter_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// `FlutterDateRangePicker({
+/// `AlterDateRangePicker({
 ///   Key? key,
 ///   this.initialStartDate,
 ///   this.initialEndDate,
@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 ///   required this.maximumDate,
 ///   required this.onCancelClick,
 /// }`
-class FlutterDateRangePicker extends StatefulWidget {
+class AlterDateRangePicker extends StatefulWidget {
   final DateTime minimumDate;
 
   final DateTime maximumDate;
@@ -35,7 +35,7 @@ class FlutterDateRangePicker extends StatefulWidget {
 
   final bool selectRange;
 
-  const FlutterDateRangePicker({
+  const AlterDateRangePicker({
     Key? key,
     this.initialStartDate,
     this.initialEndDate,
@@ -51,10 +51,10 @@ class FlutterDateRangePicker extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  FlutterDateRangePickerState createState() => FlutterDateRangePickerState();
+  AlterDateRangePickerState createState() => AlterDateRangePickerState();
 }
 
-class FlutterDateRangePickerState extends State<FlutterDateRangePicker>
+class AlterDateRangePickerState extends State<AlterDateRangePicker>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
@@ -326,7 +326,7 @@ void showFlutterDateRangePicker(
   showDialog<dynamic>(
     context: context,
     useSafeArea: true,
-    builder: (BuildContext context) => FlutterDateRangePicker(
+    builder: (BuildContext context) => AlterDateRangePicker(
       barrierDismissible: true,
       selectRange: selectRange,
       minimumDate: minimumDate,
