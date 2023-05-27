@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// `const CustomCalendar({
+import 'dropdown_date_selection.dart';
+
+/// `const AlterCalendar({
 ///   Key? key,
 ///   this.initialStartDate,
 ///   this.initialEndDate,
@@ -9,10 +11,10 @@ import 'package:intl/intl.dart';
 ///   this.minimumDate,
 ///   this.maximumDate,
 /// })`
-class FlutterCalendar extends StatefulWidget {
-  final DateTime? minimumDate;
+class AlterCalender extends StatefulWidget {
+  final DateTime minimumDate;
 
-  final DateTime? maximumDate;
+  final DateTime maximumDate;
 
   final DateTime? initialStartDate;
 
@@ -26,23 +28,23 @@ class FlutterCalendar extends StatefulWidget {
 
   final Color textColor;
 
-  const FlutterCalendar({
+  const AlterCalender({
     Key? key,
     this.initialStartDate,
     this.initialEndDate,
     this.startEndDateChange,
-    this.minimumDate,
-    this.maximumDate,
+    required this.minimumDate,
+    required this.maximumDate,
     required this.selectRange,
     required this.foregroundColor,
     required this.textColor,
   }) : super(key: key);
 
   @override
-  FlutterCalendarState createState() => FlutterCalendarState();
+  AlterCalenderState createState() => AlterCalenderState();
 }
 
-class FlutterCalendarState extends State<FlutterCalendar> {
+class AlterCalenderState extends State<AlterCalender> {
   List<DateTime> dateList = <DateTime>[];
 
   DateTime currentMonthDate = DateTime.now();
@@ -50,16 +52,19 @@ class FlutterCalendarState extends State<FlutterCalendar> {
   DateTime? startDate;
 
   DateTime? endDate;
+  String? error;
 
   @override
   void initState() {
     setListOfDate(currentMonthDate);
     if (widget.initialStartDate != null) {
       startDate = widget.initialStartDate;
+      currentMonthDate = widget.initialStartDate!;
     }
     if (widget.initialEndDate != null) {
       endDate = widget.initialEndDate;
     }
+    setListOfDate(currentMonthDate);
     super.initState();
   }
 
@@ -110,6 +115,10 @@ class FlutterCalendarState extends State<FlutterCalendar> {
                         Radius.circular(24.0),
                       ),
                       onTap: () {
+                        if (currentMonthDate.isBefore(
+                            widget.minimumDate.add(const Duration(days: 30)))) {
+                          return;
+                        }
                         setState(() {
                           currentMonthDate = DateTime(
                             currentMonthDate.year,
@@ -127,17 +136,34 @@ class FlutterCalendarState extends State<FlutterCalendar> {
                   ),
                 ),
               ),
-              Expanded(
-                child: Center(
-                  child: Text(
-                    DateFormat('MMMM, yyyy').format(currentMonthDate),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: widget.textColor,
-                    ),
-                  ),
-                ),
+              DropdownDateSelection(
+                date: currentMonthDate,
+                maximumDate: widget.maximumDate,
+                minimumDate: widget.minimumDate,
+                foregroundColor: widget.foregroundColor,
+                textColor: widget.textColor,
+                onMonthSelect: (int? month) {
+                  if (month == null) return;
+                  setState(() {
+                    currentMonthDate = DateTime(
+                      currentMonthDate.year,
+                      month + 1,
+                      0,
+                    );
+                  });
+                  setListOfDate(currentMonthDate);
+                },
+                onYearSelect: (int? year) {
+                  if (year == null) return;
+                  setState(() {
+                    currentMonthDate = DateTime(
+                      year,
+                      currentMonthDate.month + 1,
+                      0,
+                    );
+                    setListOfDate(currentMonthDate);
+                  });
+                },
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -155,6 +181,10 @@ class FlutterCalendarState extends State<FlutterCalendar> {
                         Radius.circular(24.0),
                       ),
                       onTap: () {
+                        if (currentMonthDate.isAfter(
+                            widget.maximumDate.add(const Duration(days: 0)))) {
+                          return;
+                        }
                         setState(() {
                           currentMonthDate = DateTime(
                             currentMonthDate.year,
@@ -175,6 +205,17 @@ class FlutterCalendarState extends State<FlutterCalendar> {
             ],
           ),
         ),
+        if (error != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Center(
+              child: Text(
+                error!,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.red, fontSize: 14),
+              ),
+            ),
+          ),
         Padding(
           padding: const EdgeInsets.only(right: 8, left: 8, bottom: 8),
           child: Row(children: getDaysNameUI()),
@@ -267,41 +308,23 @@ class FlutterCalendarState extends State<FlutterCalendar> {
                       ),
                       onTap: () {
                         if (currentMonthDate.month == date.month) {
-                          if (widget.minimumDate != null &&
-                              widget.maximumDate != null) {
-                            final DateTime newminimumDate = DateTime(
-                                widget.minimumDate!.year,
-                                widget.minimumDate!.month,
-                                widget.minimumDate!.day - 1);
-                            final DateTime newmaximumDate = DateTime(
-                              widget.maximumDate!.year,
-                              widget.maximumDate!.month,
-                              widget.maximumDate!.day + 1,
-                            );
-                            if (date.isAfter(newminimumDate) &&
-                                date.isBefore(newmaximumDate)) {
-                              onDateClick(date);
-                            }
-                          } else if (widget.minimumDate != null) {
-                            final DateTime newminimumDate = DateTime(
-                              widget.minimumDate!.year,
-                              widget.minimumDate!.month,
-                              widget.minimumDate!.day - 1,
-                            );
-                            if (date.isAfter(newminimumDate)) {
-                              onDateClick(date);
-                            }
-                          } else if (widget.maximumDate != null) {
-                            final DateTime newmaximumDate = DateTime(
-                              widget.maximumDate!.year,
-                              widget.maximumDate!.month,
-                              widget.maximumDate!.day + 1,
-                            );
-                            if (date.isBefore(newmaximumDate)) {
-                              onDateClick(date);
-                            }
-                          } else {
+                          final DateTime newminimumDate = DateTime(
+                              widget.minimumDate.year,
+                              widget.minimumDate.month,
+                              widget.minimumDate.day - 1);
+                          final DateTime newmaximumDate = DateTime(
+                            widget.maximumDate.year,
+                            widget.maximumDate.month,
+                            widget.maximumDate.day + 1,
+                          );
+                          if (date.isAfter(newminimumDate) &&
+                              date.isBefore(newmaximumDate)) {
                             onDateClick(date);
+                          } else {
+                            setState(() {
+                              error =
+                                  "Invalid.\nSelect between ${DateFormat("dd/MM/yyyy").format(widget.minimumDate)} and ${DateFormat("dd/MM/yyyy").format(widget.maximumDate)}";
+                            });
                           }
                         }
                       },

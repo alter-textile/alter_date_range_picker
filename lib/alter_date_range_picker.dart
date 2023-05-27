@@ -1,4 +1,4 @@
-import 'flutter_calendar.dart';
+import 'alter_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -184,7 +184,7 @@ class AlterDateRangePickerState extends State<AlterDateRangePicker>
                       const Divider(
                         height: 1,
                       ),
-                      FlutterCalendar(
+                      AlterCalender(
                         selectRange: widget.selectRange,
                         minimumDate: widget.minimumDate,
                         maximumDate: widget.maximumDate,
@@ -200,6 +200,10 @@ class AlterDateRangePickerState extends State<AlterDateRangePicker>
                             startDate = startDateData;
                             endDate = endDateData;
                           });
+                          if(widget.selectRange == false){
+                            widget.onApplyClick(startDate, endDate);
+                            Navigator.pop(context);
+                          }
                         },
                       ),
                       Padding(

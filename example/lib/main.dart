@@ -1,4 +1,5 @@
 import 'package:alter_date_range_picker/alter_date_range_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -84,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
             maximumDate: DateTime.now().add(const Duration(days: 30)),
             foregroundColor: Colors.indigo,
             backgroundColor: Colors.white,
+            selectRange: false,
             endDate: endDate,
             startDate: startDate,
             onApplyClick: (start, end) {
